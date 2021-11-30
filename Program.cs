@@ -21,7 +21,7 @@ namespace SimpleFormGen
                                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
                                 .Build();
 
-            using var stream = new FileStream("../resources.yaml", FileMode.Open, FileAccess.Read);
+            using var stream = new FileStream("resources.yaml", FileMode.Open, FileAccess.Read);
             using var reader = new StreamReader(stream);
             var resources = yaml.Deserialize<Resources>(reader);
 
