@@ -1,0 +1,55 @@
+components:
+  - name: label
+    slack: |
+      {
+        "type": "section",
+        "text": {
+          "type": "plain_text",
+          "text": "${description}",
+          "emoji": true
+        }
+      }
+    adaptiveCards: |
+      {
+          "type": "TextBlock",
+          "text": "${description}",
+          "wrap": true
+      }
+  - name: field
+    slack: |
+      {
+        "type": "input",
+        "block_id": "input123",
+        "label": {
+          "type": "plain_text",
+          "text": "Label of input"
+        },
+        "element": {
+          "type": "plain_text_input",
+          "action_id": "plain_input",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "${value}"
+          }
+        }
+      }
+    adaptiveCards: |
+      {
+          "type": "TextBlock",
+          "text": "New TextBlock",
+          "wrap": true
+      },
+      {
+          "type": "Input.Text",
+          "placeholder": "${placeholder}",
+          "value": "${value}"
+      }
+forms:
+  - name: CREATEVM_WIN_STRESSALL_ELEMENTS
+    layouts:
+    - use: label
+      description: test
+    - use: field
+      name: CREATEVM_WIN_STRESSALL_ELEMENTS
+      value: "20.0.0.1337"
+      placeholder: "20.0.0.1337"
