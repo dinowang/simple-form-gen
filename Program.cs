@@ -14,9 +14,10 @@ namespace SimpleFormGen
         {
             Console.Write("UiType: (1) Slack App UI (2) Adaptive Cards [default=2]: ");
             var userInput = Console.ReadLine();
+            // var userInput = "1";
 
             var uiStyle = userInput == "1"
-                                ? UiStyle.SlackAppUI
+                                ? UiStyle.SlackDialog
                                 : UiStyle.AdaptiveCards;
 
             var yaml = new DeserializerBuilder()
@@ -46,18 +47,38 @@ namespace SimpleFormGen
                     layouts.Add(template);
                 }
 
-                var wrapper = uiStyle == UiStyle.SlackAppUI
+                var wrapper = uiStyle == UiStyle.SlackDialog
                                             ? @$"{{
-                                                ""blocks"": [
-                                                    {string.Join(",", layouts)}
-                                                ]
-                                            }}"
+                                                ""dialog"": {{
+                                                    ""title"": ""{form.Name}"",
+                                                    ""submit_label"": ""Submit"",
+                                                    ""callback_id"": """",
+                                                    ""elements"": [
+                                                        {string.Join(",", layouts)}
+                                                    ]
+                                                }}
+                                              }}"
                                             : @$"{{
                                                 ""type"": ""AdaptiveCard"",
                                                 ""body"": [
-                                                    {string.Join(",", layouts)}
+                                                    {{
+                                                        ""type"": ""TextBlock"",
+                                                        ""text"": ""{form.Name}"",
+                                                        ""wrap"": true,
+                                                        ""style"": ""heading""
+                                                    }},
+                                                    {string.Join(",", layouts)},
+                                                    {{
+                                                        ""type"": ""ActionSet"",
+                                                        ""actions"": [
+                                                            {{
+                                                                ""type"": ""Action.Submit"",
+                                                                ""title"": ""Submit""
+                                                            }}
+                                                        ]
+                                                    }}
                                                 ]
-                                            }}";
+                                              }}";
 
                 Console.WriteLine($"{uiStyle}\r\n{JsonBeautifier(wrapper)}");
 
@@ -68,6 +89,8 @@ namespace SimpleFormGen
 
         private static string JsonBeautifier(string json)
         {
+            // Console.WriteLine(json);
+
             var options = new JsonSerializerOptions { WriteIndented = true };
             var obj = JsonSerializer.Deserialize<dynamic>(json);
             return JsonSerializer.Serialize(obj, obj.GetType(), options);

@@ -2,6 +2,8 @@
 #pragma warning disable CS8603
 #pragma warning disable CS8604
 
+using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace SimpleFormGen
@@ -14,10 +16,34 @@ namespace SimpleFormGen
 
         public string? GetTemplate(UiStyle uiStyle, IDictionary<string, object> properties)
         {
-            var template = uiStyle == UiStyle.SlackAppUI ? Slack : AdaptiveCards;
+            var template = uiStyle == UiStyle.SlackDialog
+                            ? Slack
+                            : AdaptiveCards;
 
             if (template == null)
                 return template;
+
+            template = Regex.Replace(template, @"\$\{([^:\}]+):([^}]+)\}", match =>
+            {
+                var cmd = match.Groups[1].Value;
+                var key = match.Groups[2].Value;
+
+                switch (cmd)
+                {
+                    case "select":
+                        var json = JsonSerializer.Serialize(properties[key]);
+
+                        if (uiStyle == UiStyle.SlackDialog)
+                            json = Regex.Replace(json, "\"text\":", "\"label\":");
+                        else
+                            json = Regex.Replace(json, "\"text\":", "\"title\":");
+                        return json;
+                        break;
+                }
+
+                return "[]";
+            });
+
 
             template = Regex.Replace(template, @"\$\{([^}]+)\}", match =>
             {
