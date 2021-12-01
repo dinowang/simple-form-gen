@@ -88,6 +88,10 @@ AdaptiveCards
 }
 ```
 
+Validate by [Adaptive Cards Designer](https://adaptivecards.io/designer/)
+
+![](./images/easy-adaptivecards.png)
+
 # Slack App UI
 
 ```
@@ -124,3 +128,7 @@ SlackAppUI
   ]
 }
 ```
+
+Validate by [Block Kit Builder](https://app.slack.com/block-kit-builder)
+
+![](./images/easy-slackappui.png)
