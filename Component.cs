@@ -1,7 +1,3 @@
-#pragma warning disable CS8602
-#pragma warning disable CS8603
-#pragma warning disable CS8604
-
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -10,11 +6,11 @@ namespace SimpleFormGen
 {
     public class Component
     {
-        public string? Name { get; set; }
-        public string? Slack { get; set; }
-        public string? AdaptiveCards { get; set; }
+        public string Name { get; set; }
+        public string Slack { get; set; }
+        public string AdaptiveCards { get; set; }
 
-        public string? GetTemplate(UiStyle uiStyle, IDictionary<string, object> properties)
+        public string GetTemplate(UiStyle uiStyle, IDictionary<string, object> properties)
         {
             var template = uiStyle == UiStyle.SlackDialog
                             ? Slack
@@ -38,7 +34,6 @@ namespace SimpleFormGen
                         else
                             json = Regex.Replace(json, "\"text\":", "\"title\":");
                         return json;
-                        break;
                 }
 
                 return "[]";

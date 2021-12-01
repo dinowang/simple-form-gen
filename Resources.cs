@@ -2,16 +2,22 @@ namespace SimpleFormGen
 {
     public class Resources
     {
-        public IEnumerable<Component>? Components { get; set; }
-        public IEnumerable<Form>? Forms { get; set; }
+        public IEnumerable<Component> Components { get; set; }
+        public IEnumerable<Form> Forms { get; set; }
     }
 
     public class QuickAccessResource
     {
         public static QuickAccessResource Create(Resources resources) => new QuickAccessResource
         {
-            Components = resources.Components.ToDictionary(c => c.Name, c => c),
-            Forms = resources.Forms.ToDictionary(f => f.Name, f => f)
+            Components = resources
+                            .Components
+                            .Where(x => !string.IsNullOrEmpty(x.Name))
+                            .ToDictionary(x => x.Name, x => x),
+            Forms = resources
+                            .Forms
+                            .Where(x => !string.IsNullOrEmpty(x.Name))
+                            .ToDictionary(x => x.Name, x => x)
         };
 
         public IDictionary<string, Component> Components { get; set; }
