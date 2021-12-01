@@ -29,7 +29,7 @@
             "program": "${workspaceFolder}/bin/Debug/net6.0/SimpleForm.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "stopAtEntry": false
         },
         {

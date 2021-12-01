@@ -36,12 +36,32 @@ namespace SimpleFormGen
                 switch (cmd)
                 {
                     case "select":
-                        var json = JsonSerializer.Serialize(properties[key]);
+                        var availableOptions = properties[key] as IEnumerable<dynamic>;
 
-                        if (uiStyle == UiStyle.SlackDialog)
-                            json = Regex.Replace(json, "\"text\":", "\"label\":");
-                        else
-                            json = Regex.Replace(json, "\"text\":", "\"title\":");
+                        var options = availableOptions
+                                            .Cast<IDictionary<object, object>>()
+                                            .Select(x => new 
+                                            { 
+                                                value = x["value"], 
+                                                text = x["text"] 
+                                            });
+
+                        var json = "[]";
+
+                        switch (uiStyle)
+                        {
+                            case UiStyle.SlackDialog:
+                                json = JsonSerializer.Serialize(options.Select(x => new { label = x.text, value = x.value }));
+                                break;
+
+                            case UiStyle.SlackBlockKit:
+                                json = JsonSerializer.Serialize(options.Select(x => new { text = new { type = "plain_text", text = x.text, emoji = true }, value = x.value }));
+                                break;
+
+                            case UiStyle.AdaptiveCards:
+                                json = JsonSerializer.Serialize(options.Select(x => new { title = x.text, value = x.value }));
+                                break;
+                        }
                         return json;
                 }
 

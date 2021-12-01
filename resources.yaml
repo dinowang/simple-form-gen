@@ -104,32 +104,7 @@ components:
             "text": "${placeholder}",
             "emoji": true
           },
-          "options": [
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "*this is plain_text text*",
-                "emoji": true
-              },
-              "value": "value-0"
-            },
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "*this is plain_text text*",
-                "emoji": true
-              },
-              "value": "value-1"
-            },
-            {
-              "text": {
-                "type": "plain_text",
-                "text": "*this is plain_text text*",
-                "emoji": true
-              },
-              "value": "value-2"
-            }
-          ]
+          "options": ${select:options}
         },
         "label": {
           "type": "plain_text",
