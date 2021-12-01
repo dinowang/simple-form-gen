@@ -15,7 +15,9 @@ namespace SimpleFormGen
             Console.Write("UiType: (1) Slack App UI (2) Adaptive Cards [default=2]: ");
             var userInput = Console.ReadLine();
 
-            var uiStyle = userInput == "1" ? UiStyle.SlackAppUI : UiStyle.AdaptiveCards;
+            var uiStyle = userInput == "1"
+                                ? UiStyle.SlackAppUI
+                                : UiStyle.AdaptiveCards;
 
             var yaml = new DeserializerBuilder()
                                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
@@ -35,9 +37,8 @@ namespace SimpleFormGen
 
                 var layouts = new List<string>();
 
-                foreach (var layout in form.Layouts.Cast<dynamic>())
+                foreach (var properties in form.Layouts.Cast<IDictionary<string, object>>())
                 {
-                    IDictionary<string, object> properties = layout;
                     var use = properties["use"].ToString();
                     var component = resources.Components.First(c => c.Name == use);
                     var template = component.GetTemplate(uiStyle, properties);
@@ -46,25 +47,26 @@ namespace SimpleFormGen
                 }
 
                 var wrapper = uiStyle == UiStyle.SlackAppUI
-                                        ? @$"{{
+                                            ? @$"{{
                                                 ""blocks"": [
                                                     {string.Join(",", layouts)}
                                                 ]
                                             }}"
-                                        : @$"{{
+                                            : @$"{{
                                                 ""type"": ""AdaptiveCard"",
                                                 ""body"": [
                                                     {string.Join(",", layouts)}
                                                 ]
                                             }}";
 
+                Console.WriteLine($"{uiStyle}\r\n{JsonBeautifier(wrapper)}");
+
                 // https://app.slack.com/block-kit-builder/
                 // https://adaptivecards.io/designer/
-                Console.WriteLine($"{uiStyle}\r\n{JsonBeautifier(wrapper)}");
             }
         }
 
-        public static string JsonBeautifier(string json)
+        private static string JsonBeautifier(string json)
         {
             var options = new JsonSerializerOptions { WriteIndented = true };
             var obj = JsonSerializer.Deserialize<dynamic>(json);
