@@ -8,6 +8,26 @@ components:
         "value": "${value}",
         "hint": "${placeholder}"
       }
+    slackBlockKit: |
+      {
+        "type": "input",
+        "element": {
+          "type": "plain_text_input",
+          "action_id": "${name}",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "${placeholder}"
+          }
+        },
+        "label": {
+          "type": "plain_text",
+          "text": "${label}"
+        },
+        "hint": {
+          "type": "plain_text",
+          "text": "${placeholder}"
+        }
+      }    
     adaptiveCards: |
       {
           "type": "TextBlock",
@@ -29,6 +49,27 @@ components:
         "value": "${value}",
         "hint": "${placeholder}"
       }
+    slackBlockKit: |
+      {
+        "type": "input",
+        "element": {
+          "type": "plain_text_input",
+          "action_id": "${name}",
+          "multiline": true,
+          "placeholder": {
+            "type": "plain_text",
+            "text": "${placeholder}"
+          }
+        },
+        "label": {
+          "type": "plain_text",
+          "text": "${label}"
+        },
+        "hint": {
+          "type": "plain_text",
+          "text": "${placeholder}"
+        }
+      } 
     adaptiveCards: |
       {
           "type": "TextBlock",
@@ -52,6 +93,50 @@ components:
         "options": ${select:options},
         "hint": "${placeholder}"
       }
+    slackBlockKit: |
+      {
+        "type": "input",
+        "element": {
+          "type": "static_select",
+          "action_id": "${name}",
+          "placeholder": {
+            "type": "plain_text",
+            "text": "${placeholder}",
+            "emoji": true
+          },
+          "options": [
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "*this is plain_text text*",
+                "emoji": true
+              },
+              "value": "value-0"
+            },
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "*this is plain_text text*",
+                "emoji": true
+              },
+              "value": "value-1"
+            },
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "*this is plain_text text*",
+                "emoji": true
+              },
+              "value": "value-2"
+            }
+          ]
+        },
+        "label": {
+          "type": "plain_text",
+          "text": "${label}",
+          "emoji": true
+        }
+      }
     adaptiveCards: |
       {
           "type": "TextBlock",
@@ -68,6 +153,13 @@ components:
 
 forms:
   - name: CREATEVM_WIN_STRESSALL_ELEMENTS
+    # actions: 
+    #   - if: '$CREATEVM_WIN_STRESSALL_ELEMENTS_2 == "1"'
+    #     action: https://prod-21.southeastasia.logic.azure.com:443/workflows/029ffd2ff23e461b948d63484c8a1aaf/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LRokYg88DGU4GxzQHNDeL4lDYRC6m3L2AX7NrCsaOMs
+    #   - if: '$CREATEVM_WIN_STRESSALL_ELEMENTS_2 == "2"'
+    #     action: https://prod-21.southeastasia.logic.azure.com:443/workflows/029ffd2ff23e461b948d63484c8a1aaf/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LRokYg88DGU4GxzQHNDeL4lDYRC6m3L2AX7NrCsaOMs
+    #   - default:
+    #     action: https://prod-21.southeastasia.logic.azure.com:443/workflows/029ffd2ff23e461b948d63484c8a1aaf/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=LRokYg88DGU4GxzQHNDeL4lDYRC6m3L2AX7NrCsaOMs
     layouts:
     - use: text
       label: Input text

@@ -8,16 +8,25 @@ namespace SimpleFormGen
     {
         public string Name { get; set; }
         public string Slack { get; set; }
+        public string SlackBlockKit { get; set; }
         public string AdaptiveCards { get; set; }
 
-        public string GetTemplate(UiStyle uiStyle, IDictionary<string, object> properties)
+        public string CreateComponent(UiStyle uiStyle, IDictionary<string, object> properties)
         {
-            var template = uiStyle == UiStyle.SlackDialog
-                            ? Slack
-                            : AdaptiveCards;
+            var template = string.Empty;
 
-            if (template == null)
-                return template;
+            switch (uiStyle)
+            {
+                case UiStyle.SlackDialog:
+                    template = Slack;
+                    break;
+                case UiStyle.SlackBlockKit:
+                    template = SlackBlockKit;
+                    break;
+                default:
+                    template = AdaptiveCards;
+                    break;
+            }
 
             template = Regex.Replace(template, @"\$\{([^:\}]+):([^}]+)\}", match =>
             {
